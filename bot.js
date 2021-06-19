@@ -2,7 +2,7 @@ const Discord = require('discord.js')
 const config = require('./config.json')
 const client = new Discord.Client()
 
-client.login(config.TOKEN)
+client.login(process.env.TOKEN)
 
 function archiveCommand(message) {
 	return message.content === "!archive"

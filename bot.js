@@ -13,7 +13,11 @@ function imageAttached(message) {
 }
 
 function properArchivePost(message) {
-	return (archiveCommand(message) && imageAttached(message))
+	return (archiveCommand(message) && imageAttached(message) && notArchiveBot(message))
+}
+
+function archiveCommandWithoutImage(message) {
+	return (archiveCommand(message) && !imageAttached(message) && notArchiveBot(message))
 }
 
 function notArchiveBot(message) {
@@ -21,14 +25,16 @@ function notArchiveBot(message) {
 }
 
 client.on("message", (message) => {
-	if(properArchivePost(message) && notArchiveBot(message)) {
-		message.reply("Archived!")
+	if(properArchivePost(message)) {
 		const archiveChannel = client.channels.cache.find(channel => channel.name === 'bike-archive')
+
+		message.reply("Archived!")
+		
 		archiveChannel.send(message.attachments.array()[0].url)
 		archiveChannel.send(message.author.username)
 	}
 
-	if(archiveCommand(message) && !imageAttached(message) && notArchiveBot(message)) {
-		message.reply("Not a proper archive post.\nPlease attach an image for it to moved to 'bike-archive'!")
+	if(archiveCommandWithoutImage(message)) {
+		message.reply("Not a proper archive post.\nPlease attach an image for it to be moved to 'bike-archive'!")
 	}
 })

@@ -4,12 +4,12 @@ const client = new Discord.Client()
 
 client.login(config.TOKEN)
 
-function command(message) {
-	return message.content.substring(0, 1) === "!"
+function archiveCommand(message) {
+	return message.content === "!archive"
 }
 
 client.on("message", (message) => {
-	if(command(message)) {
-		
+	if(archiveCommand(message)) {
+		message.reply("Archived!")
 	}
 })

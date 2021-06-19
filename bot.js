@@ -11,5 +11,7 @@ function archiveCommand(message) {
 client.on("message", (message) => {
 	if(archiveCommand(message)) {
 		message.reply("Archived!")
+		const archiveChannel = client.channels.cache.find(channel => channel.name === 'bike-archive')
+		archiveChannel.send('Cool!')
 	}
 })

@@ -12,8 +12,12 @@ function imageAttached(message) {
 	return message.attachments.array()[0].url
 }
 
+function properArchivePost(message) {
+	return (archiveCommand(message) && imageAttached(message))
+}
+
 client.on("message", (message) => {
-	if(archiveCommand(message) && imageAttached(message)) {
+	if(properArchivePost(message)) {
 		message.reply("Archived!")
 		const archiveChannel = client.channels.cache.find(channel => channel.name === 'bike-archive')
 		console.log(message.attachments)

@@ -1,6 +1,8 @@
 const Discord = require('discord.js')
 require('dotenv').config()
+
 const client = new Discord.Client()
+const linkRegex = new RegExp("http[A-Za-z0-9_\/\:.]*(.jpg|.png)")
 
 client.login(process.env.TOKEN)
 
@@ -13,8 +15,7 @@ function imageAttached(message) {
 }
 
 function linkAttached(message) {
-	var link = new RegExp("http[A-Za-z0-9_\/\:.]*(.jpg|.png)")
-	return link.test(message)
+	return linkRegex.test(message)
 }
 
 function attachedImageArchivePost(message) {
@@ -45,7 +46,10 @@ client.on("message", (message) => {
 	}
 
 	if(attachedLinkArchivePost(message)) {
-		
+		message.reply("Archived!")
+
+		archiveChannel.send(message.content.match(linkRegex))
+		archiveChannel.send(message.author.username)
 	}
 
 	if(archiveCommandWithoutImage(message)) {

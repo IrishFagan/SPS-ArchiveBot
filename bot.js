@@ -4,7 +4,7 @@ const client = new Discord.Client()
 client.login(process.env.TOKEN)
 
 function archiveCommand(message) {
-	return message.content === "!archive"
+	return message.content.includes("!archive")
 }
 
 function imageAttached(message) {

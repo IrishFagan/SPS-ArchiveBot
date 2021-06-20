@@ -1,4 +1,5 @@
 const Discord = require('discord.js')
+require('dotenv').config()
 const client = new Discord.Client()
 
 client.login(process.env.TOKEN)
@@ -11,12 +12,21 @@ function imageAttached(message) {
 	return message.attachments.array()[0] !== undefined
 }
 
+function linkAttached(message) {
+	var link = new RegExp("http[A-Za-z0-9_\/\:.]*(.jpg|.png)")
+	return link.test(message)
+}
+
 function attachedImageArchivePost(message) {
 	return (archiveCommand(message) && imageAttached(message) && notArchiveBot(message))
 }
 
+function attachedLinkArchivePost(message) {
+	return (archiveCommand(message) && linkAttached(message))
+}
+
 function archiveCommandWithoutImage(message) {
-	return (archiveCommand(message) && !imageAttached(message) && notArchiveBot(message))
+	return (archiveCommand(message) && !imageAttached(message) && !linkAttached(message) && notArchiveBot(message))
 }
 
 function notArchiveBot(message) {
@@ -35,10 +45,7 @@ client.on("message", (message) => {
 	}
 
 	if(attachedLinkArchivePost(message)) {
-		message.reply("Archived!")
-
-		archiveChannel.send(message)
-		archiveChannel.send(message.author.username)
+		
 	}
 
 	if(archiveCommandWithoutImage(message)) {

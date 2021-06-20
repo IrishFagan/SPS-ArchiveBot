@@ -11,7 +11,7 @@ function imageAttached(message) {
 	return message.attachments.array()[0] !== undefined
 }
 
-function properArchivePost(message) {
+function attachedImageArchivePost(message) {
 	return (archiveCommand(message) && imageAttached(message) && notArchiveBot(message))
 }
 
@@ -24,12 +24,20 @@ function notArchiveBot(message) {
 }
 
 client.on("message", (message) => {
-	if(properArchivePost(message)) {
-		const archiveChannel = client.channels.cache.find(channel => channel.name === 'bike-archive')
+	const archiveChannel = client.channels.cache.find(channel => channel.name === 'bike-archive')
+
+	if(attachedImageArchivePost(message)) {
 
 		message.reply("Archived!")
 		
 		archiveChannel.send(message.attachments.array()[0].url)
+		archiveChannel.send(message.author.username)
+	}
+
+	if(attachedLinkArchivePost(message)) {
+		message.reply("Archived!")
+
+		archiveChannel.send(message)
 		archiveChannel.send(message.author.username)
 	}
 

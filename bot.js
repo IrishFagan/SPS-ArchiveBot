@@ -19,7 +19,7 @@ function linkAttached(message) {
 }
 
 function attachedImageArchivePost(message) {
-	return (archiveCommand(message) && imageAttached(message) && notArchiveBot(message))
+	return (archiveCommand(message) && imageAttached(message))
 }
 
 function attachedLinkArchivePost(message) {
@@ -27,7 +27,7 @@ function attachedLinkArchivePost(message) {
 }
 
 function archiveCommandWithoutImageOrLink(message) {
-	return (archiveCommand(message) && !imageAttached(message) && !linkAttached(message) && notArchiveBot(message))
+	return (archiveCommand(message) && !imageAttached(message) && !linkAttached(message))
 }
 
 function notArchiveBot(message) {
@@ -35,7 +35,7 @@ function notArchiveBot(message) {
 }
 
 client.on("message", (message) => {
-	const archiveChannel = client.channels.cache.find(channel => channel.name === process.env.CHANNEL)
+	if (message.author.bot) return
 
 	message.awaitReactions(() => ['🅰️'], { max: 1})
 		.then(collected => {

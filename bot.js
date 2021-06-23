@@ -37,6 +37,18 @@ function notArchiveBot(message) {
 client.on("message", (message) => {
 	const archiveChannel = client.channels.cache.find(channel => channel.name === process.env.CHANNEL)
 
+	message.awaitReactions(() => ['🅰️'], { max: 1})
+		.then(collected => {
+			const reaction = collected.first();
+
+			if(reaction.emoji.name === '🅰️') {
+				message.reply("Archived!")
+
+				archiveChannel.send(message.attachments.array()[0].url)
+				archiveChannel.send(message.author.username)
+			}
+		})
+
 	if(attachedImageArchivePost(message)) {
 		message.reply("Archived!")
 		

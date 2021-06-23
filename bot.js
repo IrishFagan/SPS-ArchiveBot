@@ -30,10 +30,6 @@ function archiveCommandWithoutImageOrLink(message) {
 	return (archiveCommand(message) && !imageAttached(message) && !linkAttached(message))
 }
 
-function notArchiveBot(message) {
-	return message.author !== 'ArchiveBot'
-}
-
 client.on("message", (message) => {
 	if (message.author.bot) return
 

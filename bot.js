@@ -40,8 +40,6 @@ function sendArchiveMessage(message, attachment, author) {
 }
 
 function checkArchiveMessage(message) {
-	console.log('checking')
-
 	if(attachedImageArchivePost(message)) {
 		console.log('attached image')
 		sendArchiveMessage(
@@ -72,7 +70,7 @@ client.on("message", (message) => {
 		.then(collected => {
 			const reaction = collected.first();
 
-			if(reaction.emoji.name === '🅰️') {
+			if(reaction.emoji.name === '🅰️' && imageAttached(message)) {
 				sendArchiveMessage(
 					message,
 					message.attachments.array()[0].url,

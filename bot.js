@@ -66,9 +66,12 @@ function checkArchiveMessage(message) {
 client.on("message", (message) => {
 	if (message.author.bot) return
 
-	message.awaitReactions(() => ['🅰️'], { max: 1})
-		.then(collected => {
-			const reaction = collected.first();
+	collector = message.createReactionCollector(() => ['🅰️'], { max: 100})
+		
+	collector.on('collect', (reaction, reactionCollector) => {
+			archiveReaction = collector.collected.array().some(reacton => reaction.emoji.name === '🅱️')
+
+			if(archiveReaction.count > 1) return
 
 			if(reaction.emoji.name === '🅰️' && imageAttached(message)) {
 				sendArchiveMessage(

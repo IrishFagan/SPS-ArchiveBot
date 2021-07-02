@@ -69,7 +69,7 @@ client.on("message", (message) => {
 	collector = message.createReactionCollector(() => ['🅰️'], { max: 100})
 		
 	collector.on('collect', (reaction, reactionCollector) => {
-			archiveReaction = collector.collected.array().some(reacton => reaction.emoji.name === '🅱️')
+			archiveReaction = collector.collected.array().some(reacton => reaction.emoji.name === '🅰️')
 
 			if(archiveReaction.count > 1) return
 
